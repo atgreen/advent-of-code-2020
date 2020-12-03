@@ -6,8 +6,7 @@
 
 (defun slide (x y tree-count slope-x slope-y)
   (if (< y +map-max-y+)
-      (+ tree-count
-         (slide (+ x slope-x) (+ y slope-y) tree-count slope-x slope-y)
+      (+ (slide (+ x slope-x) (+ y slope-y) tree-count slope-x slope-y)
          (if (eq #\# (aref (nth y +map+) (rem x +map-max-x+))) 1 0))
       0))
 
