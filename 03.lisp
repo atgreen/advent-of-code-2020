@@ -15,8 +15,5 @@
 (print (slide 0 0 0 3 1))
 
 ;; Part 2
-(print (* (slide 0 0 0 1 1)
-          (slide 0 0 0 3 1)
-          (slide 0 0 0 5 1)
-          (slide 0 0 0 7 1)
-          (slide 0 0 0 1 2)))
+(print (apply '* (loop for run in '((1 . 1) (3 . 1) (5 . 1) (7 . 1) (1 . 2))
+                       collect (slide 0 0 0 (car run) (cdr run)))))
