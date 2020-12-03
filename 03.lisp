@@ -4,15 +4,15 @@
 (defparameter +map-max-x+ (length (car +map+)))
 (defparameter +map-max-y+ (length +map+))
 
-(defun slide (x y tree-count slope-x slope-y)
+(defun slide (x y slope-x slope-y)
   (if (< y +map-max-y+)
-      (+ (slide (+ x slope-x) (+ y slope-y) tree-count slope-x slope-y)
+      (+ (slide (+ x slope-x) (+ y slope-y) slope-x slope-y)
          (if (eq #\# (aref (nth y +map+) (rem x +map-max-x+))) 1 0))
       0))
 
 ;; Part 1
-(print (slide 0 0 0 3 1))
+(print (slide 0 0 3 1))
 
 ;; Part 2
 (print (apply '* (loop for run in '((1 . 1) (3 . 1) (5 . 1) (7 . 1) (1 . 2))
-                       collect (slide 0 0 0 (car run) (cdr run)))))
+                       collect (slide 0 0 (car run) (cdr run)))))
