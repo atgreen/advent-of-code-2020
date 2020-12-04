@@ -27,11 +27,11 @@
        (doc-pid doc)))
 
 (defparameter +four-digit-matcher+
-  (cl-ppcre:create-scanner "^[0-9][0-9][0-9][0-9]$"))
+  (cl-ppcre:create-scanner "^[0-9]{4}$"))
 (defparameter +nine-digit-matcher+
-  (cl-ppcre:create-scanner "^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]$"))
+  (cl-ppcre:create-scanner "^[0-9]{9}$"))
 (defparameter +hcl-matcher+
-  (cl-ppcre:create-scanner "^#[0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f]$"))
+  (cl-ppcre:create-scanner "^#[0-9a-f]{6}$"))
 (defparameter +hgt-in-matcher+
   (cl-ppcre:create-scanner "^[0-9]+in$"))
 (defparameter +hgt-cm-matcher+
@@ -41,17 +41,14 @@
   (and (complete-passport doc)
        (flet ((check-year (value min max)
                 (and (cl-ppcre:scan +four-digit-matcher+ value)
-                     (let ((year (parse-integer value)))
-                       (and (<= year max) (>= year min))))))
+                     (<= min (parse-integer value) max))))
          (and (check-year (doc-byr doc) 1920 2002)
               (check-year (doc-iyr doc) 2010 2020)
               (check-year (doc-eyr doc) 2020 2030)))
        (or (and (cl-ppcre:scan +hgt-in-matcher+ (doc-hgt doc))
-                (let ((hgt (parse-integer (doc-hgt doc) :junk-allowed t)))
-                  (and (>= hgt 59) (<= hgt 76))))
+                (<= 59 (parse-integer (doc-hgt doc) :junk-allowed t) 76))
            (and (cl-ppcre:scan +hgt-cm-matcher+ (doc-hgt doc))
-                (let ((hgt (parse-integer (doc-hgt doc) :junk-allowed t)))
-                  (and (>= hgt 150) (<= hgt 193)))))
+                (<= 150 (parse-integer (doc-hgt doc) :junk-allowed t) 193)))
        (cl-ppcre:scan +hcl-matcher+ (doc-hcl doc))
        (let ((pos (search (doc-ecl doc) "ambblubrngrygrnhzloth")))
          (and pos (eq 0 (rem pos 3))))
