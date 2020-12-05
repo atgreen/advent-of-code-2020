@@ -15,6 +15,7 @@ Here are some of my personal learnings from 2020.
 
 * `labels` is like `flet` but allows for recursion
 * Check that a value is within a range thusly: `(<= min value max)`
+* You can map any sequences, for example `(map 'string #'fn "ssdfs")`
 * `cl-ppcre:register-groups-bind` simplifies text extraction
 * `parseq` can be an even nicer text parsing tool
 * `alexandria:xor` is Common Lisp's missing xor
