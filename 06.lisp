@@ -8,7 +8,7 @@
        (mapcar
         (lambda (group)
           (length (remove-duplicates
-                   (sort (cl-ppcre:regex-replace-all "\\n" group "")  #'char<))))
+                   (cl-ppcre:regex-replace-all "\\n" group ""))))
         (cl-ppcre:split "\\n\\n"
                         (alexandria:read-file-into-string "06.input"))))
 
