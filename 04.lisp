@@ -67,6 +67,8 @@
           (setf *doc* (make-doc)))
         (dolist (value (split-sequence:split-sequence #\SPACE line))
           (let ((key-value (split-sequence:split-sequence #\: value)))
+	    ;; This is dangerous.
+	    ;; https://www.reddit.com/r/Common_Lisp/comments/k79s59/common_lisp_for_advent_of_code_2020/gevk6dr?utm_source=share&utm_medium=web2x&context=3
             (eval (read-from-string
                    (format nil "(setf (doc-~A *doc*) ~S)"
                            (car key-value) (cadr key-value))))))))
